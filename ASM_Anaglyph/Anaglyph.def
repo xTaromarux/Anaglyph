@@ -1,0 +1,5 @@
+EXPORTS
+    CheckMMX
+    CheckSSE
+    CheckSSE2
+    CheckSSE3
