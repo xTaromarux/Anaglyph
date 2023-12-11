@@ -1,5 +1,2 @@
 EXPORTS
-    CheckMMX
-    CheckSSE
-    CheckSSE2
-    CheckSSE3
+	matrix_multiply

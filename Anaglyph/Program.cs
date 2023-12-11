@@ -4,30 +4,21 @@ using System.Runtime.InteropServices;
 class Program
 {
     [DllImport("C:\\Users\\slawek\\source\\repos\\Anaglyph\\x64\\Debug\\ASM_Anaglyph.dll")]
-    public static extern int CheckMMX();
-
-    [DllImport("C:\\Users\\slawek\\source\\repos\\Anaglyph\\x64\\Debug\\ASM_Anaglyph.dll")]
-    public static extern int CheckSSE();
-
-    [DllImport("C:\\Users\\slawek\\source\\repos\\Anaglyph\\x64\\Debug\\ASM_Anaglyph.dll")]
-    public static extern int CheckSSE2();
-
-    [DllImport("C:\\Users\\slawek\\source\\repos\\Anaglyph\\x64\\Debug\\ASM_Anaglyph.dll")]
-    public static extern int CheckSSE3();
-
+    public static extern void matrix_multiply(float[] matrix1, float[] matrix2, float[] result);
 
     static void Main()
     {
-        int resultMMX = CheckMMX();
-        int resultSSE = CheckSSE();
-        int resultSSE2 = CheckSSE2();
-        int resultSSE3 = CheckSSE3();
+        float[] matrix1 = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        float[] matrix2 = { 1, 2, 3 };
+        float[] result = new float[3];
 
-        Console.WriteLine("Obsługa MMX: " + resultMMX);
+        matrix_multiply(matrix1, matrix2, result);
 
-        Console.WriteLine("Obsługa SSE: " + resultSSE);
-        Console.WriteLine("Obsługa SSE2: " + resultSSE2);
-        Console.WriteLine("Obsługa SSE3: " + resultSSE3);
+        Console.WriteLine("Wynik mnożenia macierzy:");
+        for (int i = 0; i < result.Length; i++)
+        {
+            Console.WriteLine(result[i]);
+        }
 
         Console.ReadLine();
     }
