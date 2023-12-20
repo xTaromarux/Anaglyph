@@ -7,34 +7,34 @@
         ; [r8] - result 1x3
 
         ; Initialize variables
-        xorpd xmm4, xmm4       ; Clear xmm4 to store the result for the current row
-        xor rax, rax             ; rax will be used for outer loop counters
-        outer_loop:               ; Outer loop (rows of matrix1)
-            xor rdi, rdi             ; rax will be used for inner loop counters
-            
-            cmp rax, 3            ; Check if outer loop is done (assuming matrix1 is 3x3)
-            je Done               ; End of outer loop
+        xor rax, rax                                ; rax will be used for outer loop counters
+        mov r10, 0                                  ; r10 will be used for index counter
+        outer_loop:                                 ; Outer loop (rows of matrix1)
+            mov rbx, 0                              ; Clear rbx for the next iteration
+            xorpd xmm2, xmm2                        ; Clear xmm2 for the next iteration
 
-        inner_loop:                  ; Inner loop (columns of matrix2)
-            movdqu xmm0, [rcx]       ; Load matrix1 element to xmm0
-            movdqu xmm1, [rdx]       ; Load matrix2 element to xmm1
-            pmullw xmm1, xmm0        ; Multiply matrix1 and matrix2 elements
-            paddusw xmm4, xmm1       ; Add the result to xmm4
+            cmp rax, 3                              ; Check if outer loop is done (assuming matrix1 is 3x3)
+            je Done                                 ; End of outer loop
 
-   
-            inc rdi                  ; Move to the next column of matrix2
-            cmp rdi, 2               ; Check if inner loop is done (assuming matrix2 is 3x3)
-            je innerLoopDone         ; End of inner loop
-            jmp inner_loop
+            inner_loop:                             ; Inner loop (columns of matrix2)
+                movupd xmm0, [rcx + r10*8]          ; Load matrix1 element to xmm0
+                movupd xmm1, [rdx + rbx*8]          ; Load matrix2 element to xmm1
+                mulpd xmm1, xmm0                    ; Multiply matrix1 and matrix2 elements
+                addpd xmm2, xmm1                    ; Add the result to xmm2
+
+                inc r10                             ; Move to the next column of matrix1
+                inc rbx                             ; Move to the next column of matrix2
+                cmp rbx, 1                          ; Check if inner loop is done
+                je innerLoopDone                    ; End of inner loop
+                jmp inner_loop                      ; Continue inner loop
 
         innerLoopDone:
-           inc rax               ; Move to the next row of matrix1
-           movdqu [r8], xmm4     ; Store the result in the result matrix
-           xorpd xmm4, xmm4      ; Clear xmm4 for the next iteration
-           jmp outer_loop
+           movupd [r8], xmm2                        ; Store the result in the result matrix
+           inc rax                                  ; Move to the next row of matrix1
+           jmp outer_loop                           ; Continue outer loop
 
         Done: 
-            ret 
+            ret                                     ; Stop procedure
 
     matrix_multiply endp
 
