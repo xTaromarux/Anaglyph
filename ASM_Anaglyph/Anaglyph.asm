@@ -24,12 +24,12 @@
 
                 inc r10                             ; Move to the next column of matrix1
                 inc rbx                             ; Move to the next column of matrix2
-                cmp rbx, 1                          ; Check if inner loop is done
+                cmp rbx, 3                          ; Check if inner loop is done
                 je innerLoopDone                    ; End of inner loop
                 jmp inner_loop                      ; Continue inner loop
 
         innerLoopDone:
-           movupd [r8], xmm2                        ; Store the result in the result matrix
+           movupd [r8 + rax*8], xmm2                ; Store the result in the result matrix
            inc rax                                  ; Move to the next row of matrix1
            jmp outer_loop                           ; Continue outer loop
 
@@ -37,6 +37,34 @@
             ret                                     ; Stop procedure
 
     matrix_multiply endp
+
+    matrix_addition proc
+        ; Parameters:
+        ; [rcx] - matrix1 3x3
+        ; [rdx] - matrix2 1x3
+        ; [r8] - result 1x3
+
+        ; Initialize variables
+        mov rbx, 0                                  ; Clear rbx for the next iteration
+        outer_loop:                                 ; loop (for rows)
+            xorpd xmm2, xmm2                        ; Clear xmm2 for the next iteration
+
+            cmp rbx, 3                              ; Check if outer loop is done (assuming matrix1 is 3x1)
+            je Done                                 ; End of outer loop
+
+            movupd xmm0, [rcx + rbx*8]              ; Load matrix1 element to xmm0
+            movupd xmm1, [rdx + rbx*8]              ; Load matrix2 element to xmm1
+            addpd xmm1, xmm0                        ; Addition matrix1 and matrix2 elements
+            addpd xmm2, xmm1                        ; Add the result to xmm2
+            movupd [r8 + rbx*8], xmm2               ; Store the result in the result matrix
+            inc rbx                                 ; Move to the next row
+
+            jmp outer_loop                          ; Continue loop
+
+        Done: 
+            ret                                     ; Stop procedure
+
+    matrix_addition endp
 
 end
     
