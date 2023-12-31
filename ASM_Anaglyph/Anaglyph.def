@@ -1,2 +1,3 @@
 EXPORTS
 	matrix_multiply
+	matrix_addition
