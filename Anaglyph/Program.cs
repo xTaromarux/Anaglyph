@@ -3,6 +3,12 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using Anaglyph;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 class Program
 {
@@ -12,14 +18,21 @@ class Program
     [DllImport("C:\\Users\\slawek\\source\\repos\\Anaglyph\\x64\\Debug\\ASM_Anaglyph.dll")]
     public static extern void matrix_addition(double[] matrix1, double[] matrix2, double[] result);
 
+    [DllImport("C:\\Users\\slawek\\source\\repos\\Anaglyph\\x64\\Debug\\ASM_Anaglyph.dll")]
+    public static extern void matrix_addition_on_ptr(float[] matrix1, float[] matrix2, float[] result);
+
+    [STAThread]
+
     static void Main()
     {
+        /*Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+        Application.Run(new AnaglyphForm());*/
+
+
         double[] matrixForMultiplication1 = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         double[] matrixForMultiplication2 = { 1, 2, 3 };
         double[] resultOfMultiplication = new double[3];
-
-
-
 
         if (ThreadPool.SetMaxThreads(2000, 100))
         {
@@ -59,17 +72,17 @@ class Program
 
 
 
-        /*double[] matrixForAddition1 = { 1, 2, 3 };
-        double[] matrixForAddition2 = { 1, 2, 3 };
-        double[] resultOfAddition = { 0, 0, 0 };
+        float[] matrixForAddition1 = { 1, 2, 3 };
+        float[] matrixForAddition2 = { 1, 2, 3 };
+        float[] resultOfAddition = { 0, 0, 0 };
 
-        matrix_addition(matrixForAddition1, matrixForAddition2, resultOfAddition);
+        matrix_addition_on_ptr(matrixForAddition1, matrixForAddition2, resultOfAddition);
 
         Console.WriteLine("Wynik dodawania macierzy:");
-        foreach (double b in resultOfAddition)
+        foreach (float res in resultOfAddition)
         {
-            Console.Write(b + "\n");
+            Console.Write(res + "\n");
         }
-        Console.WriteLine();*/
+        Console.WriteLine();
     }
 }

@@ -66,5 +66,19 @@
 
     matrix_addition endp
 
+    matrix_addition_on_ptr proc
+        ; Parameters:
+        ; [rcx] - matrix1 3x3
+        ; [rdx] - matrix2 1x3
+        ; [r8] - result 1x3
+
+        movaps xmm0, xmmword ptr [rcx]              ; Load matrix1 element to xmm0
+        movaps xmm1, xmmword ptr [rdx]              ; Load matrix2 element to xmm1
+        addps xmm0, xmm1                            ; Addition matrix1 and matrix2 elements
+        movaps xmmword ptr [r8], xmm0               ; Store the result in the result matrix
+
+        ret                                         ; Stop procedure
+
+    matrix_addition_on_ptr endp
 end
     
