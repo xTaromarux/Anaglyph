@@ -9,96 +9,80 @@ using System.Windows.Forms;
 using Anaglyph;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 class Program
 {
     [DllImport("C:\\Users\\slawek\\source\\repos\\Anaglyph\\x64\\Debug\\ASM_Anaglyph.dll")]
-    public static extern void matrix_multiply(double[] matrix1, double[] matrix2, double[] result);
-
-    [DllImport("C:\\Users\\slawek\\source\\repos\\Anaglyph\\x64\\Debug\\ASM_Anaglyph.dll")]
-    public static extern void matrix_addition(double[] matrix1, double[] matrix2, double[] result);
-
-    [DllImport("C:\\Users\\slawek\\source\\repos\\Anaglyph\\x64\\Debug\\ASM_Anaglyph.dll")]
-    public static extern void matrix_addition_on_ptr(float[] matrix1, float[] matrix2, float[] result);
+    public static extern void anaglyph_alghorytm(IntPtr ptrScan0ForResult, IntPtr bitmapOfFirstImage, IntPtr bitmapOfSecondImage, int sizeInBytes);
 
     [STAThread]
 
     static void Main()
     {
-        /*Application.EnableVisualStyles();
+        Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
-        Application.Run(new AnaglyphForm());*/
+        Application.Run(new AnaglyphForm());
 
-
-        double[] matrixForMultiplication1 = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        double[] matrixForMultiplication2 = { 1, 2, 3 };
-        double[] resultOfMultiplication = new double[3];
-
-        if (ThreadPool.SetMaxThreads(2000, 100))
-        {
-            Console.Write("The minimum number of threads was set successfully. \n");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-            // Określenie liczby wątków
-            int numThreads = 5;
-
-            // Wywołanie funkcji wielowątkowo
-            /*            Parallel.For(0, numThreads, i =>
-                        {
-                            matrix_multiply(matrixForMultiplication1, matrixForMultiplication2, resultOfMultiplication, i, numThreads);
-                        });*/
-            matrix_multiply(matrixForMultiplication1, matrixForMultiplication2, resultOfMultiplication);
-            stopWatch.Stop();
-
-            Console.WriteLine("Wynik mnożenia macierzy:");
-            foreach (double a in resultOfMultiplication)
-            {
-                Console.Write(a + "\n");
-            }
-            Console.WriteLine();
-
-            TimeSpan ts = stopWatch.Elapsed;
-
-            // Format and display the TimeSpan value.
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                ts.Hours, ts.Minutes, ts.Seconds,
-                ts.Milliseconds / 10);
-            Console.WriteLine("RunTime " + elapsedTime);
-        }
-        else
-        {
-            Console.Write("The minimum number of threads was not changed. \n");
-        }
-
-
-
-        float[] matrixForAddition1 = { 1, 2, 3 };
-        float[] matrixForAddition2 = { 1, 2, 3 };
-        float[] resultOfAddition = { 0, 0, 0 };
-
-        matrix_addition_on_ptr(matrixForAddition1, matrixForAddition2, resultOfAddition);
-
-        Console.WriteLine("Wynik dodawania macierzy:");
-        foreach (float res in resultOfAddition)
-        {
-            Console.Write(res + "\n");
-        }
-        Console.WriteLine();
 
         Bitmap bitmapOfFirstImage = new Bitmap("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\FirstImage.jpg");
         Bitmap bitmapOfSecondImage = new Bitmap("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\SecondImage.jpg");
         Bitmap resultBitmap = new Bitmap(bitmapOfFirstImage.Width, bitmapOfFirstImage.Height);
-        // Sprawdź, czy obie bitmapy mają takie same rozmiary
+
+        // Check if bitmaps has the same size
         if (bitmapOfFirstImage.Width != bitmapOfSecondImage.Width || bitmapOfFirstImage.Height != bitmapOfSecondImage.Height)
         {
             Console.WriteLine("Obie bitmapy muszą mieć takie same rozmiary.");
             return;
         }
 
-        // Przygotuj macierze do mnożenia
+        // Lock the bitmap's bits.  
+        Rectangle rectOfBitmapOfFirstImage = new Rectangle(0, 0, resultBitmap.Width, resultBitmap.Height);
+        BitmapData dataOfBitmapOfFirstImage = bitmapOfFirstImage.LockBits(rectOfBitmapOfFirstImage, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+        int bytes = Math.Abs(dataOfBitmapOfFirstImage.Stride) * bitmapOfFirstImage.Height;
+        // Get the address of the first line.
+        IntPtr ptrScan0ForBitmapOfFirstImage = dataOfBitmapOfFirstImage.Scan0;
+
+        // Lock the bitmap's bits.  
+        Rectangle rectOfBitmapOfSecondImage = new Rectangle(0, 0, resultBitmap.Width, resultBitmap.Height);
+        BitmapData dataOfBitmapOfSecondImage = bitmapOfSecondImage.LockBits(rectOfBitmapOfSecondImage, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+        // Get the address of the first line.
+        IntPtr ptrScan0ForBitmapOfSecondImage = dataOfBitmapOfSecondImage.Scan0;
+
+        // Lock the bitmap's bits.  
+        Rectangle rectOfResultBitmap = new Rectangle(0, 0, resultBitmap.Width, resultBitmap.Height);
+        BitmapData dataOfResultBitmap = resultBitmap.LockBits(rectOfResultBitmap, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+        // Get the address of the first line.
+        IntPtr ptrScan0ForResult = dataOfResultBitmap.Scan0;
+
+        DateTime startASM = DateTime.Now;   
+        anaglyph_alghorytm(ptrScan0ForResult, ptrScan0ForBitmapOfFirstImage, ptrScan0ForBitmapOfSecondImage, bytes);  
+        DateTime endASM = DateTime.Now;
+        TimeSpan tsASM = (endASM - startASM);
+        Console.WriteLine("Elapsed Time For ASM is {0} s => {1} ms", tsASM.TotalSeconds, tsASM.TotalMilliseconds);
+
+
+        bitmapOfFirstImage.UnlockBits(dataOfBitmapOfFirstImage);
+        bitmapOfSecondImage.UnlockBits(dataOfBitmapOfSecondImage);
+        resultBitmap.UnlockBits(dataOfResultBitmap);
+
+        resultBitmap.Save("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\ResultImageASM.jpg");
+
+
         double[,] matrix1 = { { 1, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
         double[,] matrix2 = { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
 
+        DateTime startCSharp = DateTime.Now;
+        AnaglyphAlghorytm(bitmapOfFirstImage, bitmapOfSecondImage, resultBitmap, matrix1, matrix2);
+        DateTime endCSharp = DateTime.Now;
+        TimeSpan tsCSharp = (endCSharp - startCSharp);
+        Console.WriteLine("Elapsed Time For C# is {0} s => {1} ms", tsCSharp.TotalSeconds, tsCSharp.TotalMilliseconds);
+
+        resultBitmap.Save("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\ResultImageC#.jpg");
+
+    }
+
+    static void AnaglyphAlghorytm(Bitmap bitmapOfFirstImage, Bitmap bitmapOfSecondImage, Bitmap resultBitmap, double[,] matrix1, double[,] matrix2) {
         // Przetwórz każdy piksel
         for (int x = 0; x < bitmapOfFirstImage.Width; x++)
         {
@@ -115,9 +99,6 @@ class Program
                 resultBitmap.SetPixel(x, y, Color.FromArgb((int)resultArray[0], (int)resultArray[1], (int)resultArray[2]));
             }
         }
-
-        // Zapisz wynikową bitmapę
-        resultBitmap.Save("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\ResultImage.jpg");
     }
 
     // Funkcja do mnożenia macierzy 3x3 przez wektor 3x1

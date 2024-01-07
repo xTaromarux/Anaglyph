@@ -1,84 +1,38 @@
 .code
 
-    matrix_multiply proc
+    anaglyph_alghorytm proc
+
         ; Parameters:
-        ; [rcx] - matrix1 3x3
-        ; [rdx] - matrix2 1x3
-        ; [r8] - result 1x3
+        ; rcx - result bmp
+        ; rdx - original bmp no.1
+        ; r8  - original bmp no.2
+        ; r9 - image size in bites
 
         ; Initialize variables
-        xor rax, rax                                ; rax will be used for outer loop counters
+        mov rsi, 0                                  ; rsi will be used for pixel counter (BGR)
         mov r10, 0                                  ; r10 will be used for index counter
-        outer_loop:                                 ; Outer loop (rows of matrix1)
-            mov rbx, 0                              ; Clear rbx for the next iteration
-            xorpd xmm2, xmm2                        ; Clear xmm2 for the next iteration
 
-            cmp rax, 3                              ; Check if outer loop is done (assuming matrix1 is 3x3)
-            je Done                                 ; End of outer loop
+        bmp_loop:                                   ; Main loop 
+            cmp rsi, 2                              ; Check whether to change the bmp 
+            je change_bmp                           ; Jump if true
 
-            inner_loop:                             ; Inner loop (columns of matrix2)
-                movupd xmm0, [rcx + r10*8]          ; Load matrix1 element to xmm0
-                movupd xmm1, [rdx + rbx*8]          ; Load matrix2 element to xmm1
-                mulpd xmm1, xmm0                    ; Multiply matrix1 and matrix2 elements
-                addpd xmm2, xmm1                    ; Add the result to xmm2
-
-                inc r10                             ; Move to the next column of matrix1
-                inc rbx                             ; Move to the next column of matrix2
-                cmp rbx, 3                          ; Check if inner loop is done
-                je innerLoopDone                    ; End of inner loop
-                jmp inner_loop                      ; Continue inner loop
-
-        innerLoopDone:
-           movupd [r8 + rax*8], xmm2                ; Store the result in the result matrix
-           inc rax                                  ; Move to the next row of matrix1
-           jmp outer_loop                           ; Continue outer loop
-
-        Done: 
+            mov al, byte ptr [r8 + r10]             ; Store the byte from bmp no.2 in al
+            mov byte ptr [rcx + r10], al            ; Move al to bmp result
+            inc r10                                 ; Move to the next byte in the array
+            inc rsi                                 ; Move to the next byte of pixel (BGR) in the array
+            dec r9d                                 ; Decrement image size = loop counter  
+            jnz bmp_loop                            ; Continue loop if r9 is not 0
             ret                                     ; Stop procedure
 
-    matrix_multiply endp
 
-    matrix_addition proc
-        ; Parameters:
-        ; [rcx] - matrix1 3x3
-        ; [rdx] - matrix2 1x3
-        ; [r8] - result 1x3
-
-        ; Initialize variables
-        mov rbx, 0                                  ; Clear rbx for the next iteration
-        outer_loop:                                 ; loop (for rows)
-            xorpd xmm2, xmm2                        ; Clear xmm2 for the next iteration
-
-            cmp rbx, 3                              ; Check if outer loop is done (assuming matrix1 is 3x1)
-            je Done                                 ; End of outer loop
-
-            movupd xmm0, [rcx + rbx*8]              ; Load matrix1 element to xmm0
-            movupd xmm1, [rdx + rbx*8]              ; Load matrix2 element to xmm1
-            addpd xmm1, xmm0                        ; Addition matrix1 and matrix2 elements
-            addpd xmm2, xmm1                        ; Add the result to xmm2
-            movupd [r8 + rbx*8], xmm2               ; Store the result in the result matrix
-            inc rbx                                 ; Move to the next row
-
-            jmp outer_loop                          ; Continue loop
-
-        Done: 
+        change_bmp:                                 ; Change to bmp no.1
+            mov al, byte ptr [rdx + r10]            ; Store the byte from bmp no.1 in al
+            mov byte ptr [rcx + r10], al            ; Move al to bmp result
+            mov rsi, 0                              ; Reset pixel counter 
+            inc r10                                 ; Move to the next byte in the array
+            dec r9d                                 ; Decrement image size = loop counter
+            jnz bmp_loop                            ; Continue loop if r9 is not 0
             ret                                     ; Stop procedure
 
-    matrix_addition endp
-
-    matrix_addition_on_ptr proc
-        ; Parameters:
-        ; [rcx] - matrix1 3x3
-        ; [rdx] - matrix2 1x3
-        ; [r8] - result 1x3
-
-        movaps xmm0, xmmword ptr [rcx]              ; Load matrix1 element to xmm0
-        movaps xmm1, xmmword ptr [rdx]              ; Load matrix2 element to xmm1
-        addps xmm0, xmm1                            ; Addition matrix1 and matrix2 elements
-        movaps xmmword ptr [r8], xmm0               ; Store the result in the result matrix
-
-        ret                                         ; Stop procedure
-
-    matrix_addition_on_ptr endp
+    anaglyph_alghorytm endp
 end
-    

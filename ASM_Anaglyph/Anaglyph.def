@@ -1,4 +1,2 @@
 EXPORTS
-	matrix_multiply
-	matrix_addition
-	matrix_addition_on_ptr
+	anaglyph_alghorytm
