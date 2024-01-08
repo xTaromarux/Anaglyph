@@ -20,9 +20,9 @@ class Program
 
     static void Main()
     {
-        Application.EnableVisualStyles();
+/*        Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
-        Application.Run(new AnaglyphForm());
+        Application.Run(new AnaglyphForm());*/
 
 
         Bitmap bitmapOfFirstImage = new Bitmap("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\FirstImage.jpg");
@@ -91,43 +91,10 @@ class Program
                 Color pixel1 = bitmapOfFirstImage.GetPixel(x, y);
                 Color pixel2 = bitmapOfSecondImage.GetPixel(x, y);
 
-                // Wykonaj mnożenie macierzowe i dodawanie
-                double[] resultArray = MatrixMultiply(matrix1, new double[] { pixel1.R, pixel1.G, pixel1.B });
-                resultArray = VectorAdd(resultArray, MatrixMultiply(matrix2, new double[] { pixel2.R, pixel2.G, pixel2.B }));
 
                 // Ustaw wynikowy piksel w wynikowej bitmapie
-                resultBitmap.SetPixel(x, y, Color.FromArgb((int)resultArray[0], (int)resultArray[1], (int)resultArray[2]));
+                resultBitmap.SetPixel(x, y, Color.FromArgb((int)pixel1.R, (int)pixel2.G, (int)pixel2.B));
             }
         }
-    }
-
-    // Funkcja do mnożenia macierzy 3x3 przez wektor 3x1
-    static double[] MatrixMultiply(double[,] matrix, double[] vector)
-    {
-        double[] result = new double[3];
-
-        for (int i = 0; i < 3; i++)
-        {
-            result[i] = 0;
-            for (int j = 0; j < 3; j++)
-            {
-                result[i] += matrix[i, j] * vector[j];
-            }
-        }
-
-        return result;
-    }
-
-    // Funkcja do dodawania dwóch wektorów
-    static double[] VectorAdd(double[] vector1, double[] vector2)
-    {
-        double[] result = new double[3];
-
-        for (int i = 0; i < 3; i++)
-        {
-            result[i] = vector1[i] + vector2[i];
-        }
-
-        return result;
     }
 }
