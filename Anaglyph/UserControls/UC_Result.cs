@@ -16,11 +16,12 @@ namespace Anaglyph.UserControls
         public UC_Result()
         {
             InitializeComponent();
+            LoadImageIfExist();
         }
 
         private void LoadImageIfExist()
         {
-            string imagePath = @"C:\Users\slawek\source\repos\Anaglyph\Anaglyph\Resources\ResultImage.jpg"; 
+            string imagePath = @"C:\Users\igor\source\repos\Anaglyph\Anaglyph\Resources\ResultImage.jpg"; 
 
             if (File.Exists(imagePath))
             {
@@ -28,6 +29,7 @@ namespace Anaglyph.UserControls
                 {
                     Image image = Image.FromFile(imagePath);
                     pictureBox.Image = image;
+                    pictureBox.BorderStyle = BorderStyle.None;   
                 }
                 catch (Exception ex)
                 {

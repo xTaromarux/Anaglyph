@@ -20,13 +20,13 @@ class Program
 
     static void Main()
     {
-/*        Application.EnableVisualStyles();
+        Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
-        Application.Run(new AnaglyphForm());*/
+        Application.Run(new AnaglyphForm());
 
 
-        Bitmap bitmapOfFirstImage = new Bitmap("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\FirstImage.jpg");
-        Bitmap bitmapOfSecondImage = new Bitmap("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\SecondImage.jpg");
+        Bitmap bitmapOfFirstImage = new Bitmap("C:\\Users\\igor\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\FirstImage.jpg");
+        Bitmap bitmapOfSecondImage = new Bitmap("C:\\Users\\igor\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\SecondImage.jpg");
         Bitmap resultBitmap = new Bitmap(bitmapOfFirstImage.Width, bitmapOfFirstImage.Height);
 
         // Check if bitmaps has the same size
@@ -66,23 +66,19 @@ class Program
         bitmapOfSecondImage.UnlockBits(dataOfBitmapOfSecondImage);
         resultBitmap.UnlockBits(dataOfResultBitmap);
 
-        resultBitmap.Save("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\ResultImageASM.jpg");
-
-
-        double[,] matrix1 = { { 1, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
-        double[,] matrix2 = { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
+        resultBitmap.Save("C:\\Users\\igor\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\ResultImageASM.jpg");
 
         DateTime startCSharp = DateTime.Now;
-        AnaglyphAlghorytm(bitmapOfFirstImage, bitmapOfSecondImage, resultBitmap, matrix1, matrix2);
+        AnaglyphAlghorytm(bitmapOfFirstImage, bitmapOfSecondImage, resultBitmap);
         DateTime endCSharp = DateTime.Now;
         TimeSpan tsCSharp = (endCSharp - startCSharp);
         Console.WriteLine("Elapsed Time For C# is {0} s => {1} ms", tsCSharp.TotalSeconds, tsCSharp.TotalMilliseconds);
 
-        resultBitmap.Save("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\ResultImageC#.jpg");
+        resultBitmap.Save("C:\\Users\\igor\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\ResultImageC#.jpg");
 
     }
 
-    static void AnaglyphAlghorytm(Bitmap bitmapOfFirstImage, Bitmap bitmapOfSecondImage, Bitmap resultBitmap, double[,] matrix1, double[,] matrix2) {
+    static void AnaglyphAlghorytm(Bitmap bitmapOfFirstImage, Bitmap bitmapOfSecondImage, Bitmap resultBitmap) {
         // Przetwórz każdy piksel
         for (int x = 0; x < bitmapOfFirstImage.Width; x++)
         {
