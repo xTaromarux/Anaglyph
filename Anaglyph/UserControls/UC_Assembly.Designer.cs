@@ -57,9 +57,9 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(151, 458);
+            this.textBox1.Location = new System.Drawing.Point(102, 458);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(279, 20);
+            this.textBox1.Size = new System.Drawing.Size(328, 20);
             this.textBox1.TabIndex = 32;
             this.textBox1.Text = "Liczba wątków:";
             // 
@@ -120,17 +120,17 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(151, 484);
+            this.textBox2.Location = new System.Drawing.Point(102, 484);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(279, 20);
+            this.textBox2.Size = new System.Drawing.Size(328, 20);
             this.textBox2.TabIndex = 34;
             this.textBox2.Text = "Czas wykonywania to:";
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(151, 510);
+            this.textBox3.Location = new System.Drawing.Point(102, 510);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(279, 20);
+            this.textBox3.Size = new System.Drawing.Size(328, 20);
             this.textBox3.TabIndex = 35;
             this.textBox3.Text = "Średni czas wykonywania to:";
             // 
@@ -138,6 +138,7 @@
             // 
             this.guna2TrackBar1.HoverState.Parent = this.guna2TrackBar1;
             this.guna2TrackBar1.Location = new System.Drawing.Point(456, 455);
+            this.guna2TrackBar1.Maximum = 64;
             this.guna2TrackBar1.Minimum = 1;
             this.guna2TrackBar1.Name = "guna2TrackBar1";
             this.guna2TrackBar1.Size = new System.Drawing.Size(279, 23);
