@@ -21,7 +21,7 @@ namespace Anaglyph.UserControls
 
         private void LoadImageIfExist()
         {
-            string imagePath = @"C:\Users\igor\source\repos\Anaglyph\Anaglyph\Resources\ResultImage.jpg"; 
+            string imagePath = @"C:\Users\slawek\source\repos\Anaglyph\Anaglyph\Resources\Result.jpg"; 
 
             if (File.Exists(imagePath))
             {
@@ -40,6 +40,11 @@ namespace Anaglyph.UserControls
             {
                 MessageBox.Show("Plik obrazu nie istnieje w podanej ścieżce.");
             }
+        }
+
+        private void pictureBox_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

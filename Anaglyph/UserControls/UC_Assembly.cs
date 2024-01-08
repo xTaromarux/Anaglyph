@@ -15,7 +15,7 @@ namespace Anaglyph.UserControls
 {
     public partial class UC_Assembly : UserControl
     {
-        [DllImport("C:\\Users\\igor\\source\\repos\\Anaglyph\\x64\\Debug\\ASM_Anaglyph.dll")]
+        [DllImport("C:\\Users\\slawek\\source\\repos\\Anaglyph\\x64\\Debug\\ASM_Anaglyph.dll")]
         private static extern void anaglyph_alghorytm(IntPtr ptrScan0ForResult, IntPtr bitmapOfFirstImage, IntPtr bitmapOfSecondImage, int sizeInBytes);
 
         private int counterOfExecutionTime = 0;
@@ -81,7 +81,7 @@ namespace Anaglyph.UserControls
                 bitmapOfSecondImage.UnlockBits(dataOfBitmapOfSecondImage);
                 resultBitmap.UnlockBits(dataOfResultBitmap);
 
-                resultBitmap.Save("C:\\Users\\igor\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\ResultImage.jpg");
+                resultBitmap.Save("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\ResultImage.jpg");
                 // Możemy także wyświetlić wygenerowaną liczbę
                 textBox2.Text = "Czas wykonywania to: " + tsASM.TotalSeconds + " s" + tsASM.TotalMilliseconds + " ms";
 
@@ -89,6 +89,8 @@ namespace Anaglyph.UserControls
                 {
                     counterOfExecutionTime = 0;
                     textBox3.Text = "Średni czas wykonywania to: " + (averageExecutionTimeInS / 5) + " s => " + (averageExecutionTimeInMs / 5) + " ms";
+                    averageExecutionTimeInS = 0;
+                    averageExecutionTimeInMs = 0;
                 }
             }
         }
