@@ -3,12 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C#_Anaglyph", "Anaglyph\C#_Anaglyph.csproj", "{5F0FBB45-CEF7-46C0-92A4-A315764A7D87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anaglyph", "Anaglyph\Anaglyph.csproj", "{5F0FBB45-CEF7-46C0-92A4-A315764A7D87}"
+	ProjectSection(ProjectDependencies) = postProject
+		{34EFE999-3314-4CBD-9130-05001B4B45FD} = {34EFE999-3314-4CBD-9130-05001B4B45FD}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ASM_Anaglyph", "ASM_Anaglyph\ASM_Anaglyph.vcxproj", "{7DA28DD6-F57B-4C27-979D-2A7E37934403}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5F0FBB45-CEF7-46C0-92A4-A315764A7D87} = {5F0FBB45-CEF7-46C0-92A4-A315764A7D87}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C#_Anaglyph", "C#_Anaglyph\C#_Anaglyph.csproj", "{34EFE999-3314-4CBD-9130-05001B4B45FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,8 +33,8 @@ Global
 		{5F0FBB45-CEF7-46C0-92A4-A315764A7D87}.Debug|x86.Build.0 = Debug|Any CPU
 		{5F0FBB45-CEF7-46C0-92A4-A315764A7D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F0FBB45-CEF7-46C0-92A4-A315764A7D87}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5F0FBB45-CEF7-46C0-92A4-A315764A7D87}.Release|x64.ActiveCfg = Release|Any CPU
-		{5F0FBB45-CEF7-46C0-92A4-A315764A7D87}.Release|x64.Build.0 = Release|Any CPU
+		{5F0FBB45-CEF7-46C0-92A4-A315764A7D87}.Release|x64.ActiveCfg = Release|x64
+		{5F0FBB45-CEF7-46C0-92A4-A315764A7D87}.Release|x64.Build.0 = Release|x64
 		{5F0FBB45-CEF7-46C0-92A4-A315764A7D87}.Release|x86.ActiveCfg = Release|Any CPU
 		{5F0FBB45-CEF7-46C0-92A4-A315764A7D87}.Release|x86.Build.0 = Release|Any CPU
 		{7DA28DD6-F57B-4C27-979D-2A7E37934403}.Debug|Any CPU.ActiveCfg = Debug|x64
@@ -44,6 +49,18 @@ Global
 		{7DA28DD6-F57B-4C27-979D-2A7E37934403}.Release|x64.Build.0 = Release|x64
 		{7DA28DD6-F57B-4C27-979D-2A7E37934403}.Release|x86.ActiveCfg = Release|Win32
 		{7DA28DD6-F57B-4C27-979D-2A7E37934403}.Release|x86.Build.0 = Release|Win32
+		{34EFE999-3314-4CBD-9130-05001B4B45FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34EFE999-3314-4CBD-9130-05001B4B45FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34EFE999-3314-4CBD-9130-05001B4B45FD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{34EFE999-3314-4CBD-9130-05001B4B45FD}.Debug|x64.Build.0 = Debug|Any CPU
+		{34EFE999-3314-4CBD-9130-05001B4B45FD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{34EFE999-3314-4CBD-9130-05001B4B45FD}.Debug|x86.Build.0 = Debug|Any CPU
+		{34EFE999-3314-4CBD-9130-05001B4B45FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34EFE999-3314-4CBD-9130-05001B4B45FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34EFE999-3314-4CBD-9130-05001B4B45FD}.Release|x64.ActiveCfg = Release|Any CPU
+		{34EFE999-3314-4CBD-9130-05001B4B45FD}.Release|x64.Build.0 = Release|Any CPU
+		{34EFE999-3314-4CBD-9130-05001B4B45FD}.Release|x86.ActiveCfg = Release|Any CPU
+		{34EFE999-3314-4CBD-9130-05001B4B45FD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

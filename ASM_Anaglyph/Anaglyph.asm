@@ -1,38 +1,29 @@
 .code
-
     anaglyph_alghorytm proc
 
-        ; Parameters:
-        ; rcx - result bmp
-        ; rdx - original bmp no.1
-        ; r8  - original bmp no.2
-        ; r9d - image size in bites
+        ;Parametry:
+        ;rcx - wskaŸnik na pierwsz¹ prztygotowan¹ tablicê z zdjêcia nr 1
+        ;rdx - wskaŸnik na drugia prztygotowan¹ tablicê z zdjêcia nr 2
+        ;r8  - wskaŸnik na bitmapê wynikow¹ 
+        ;r9 - g³ugoœæ bitmap 
 
-        ; Initialize variables
-        mov rax, 0                                  ; rax will be used for pixel counter (BGR)
-        mov r10, 0                                  ; r10 will be used for index counter
+        mov r10, 0                          ;licznik(index)                      
+        xorps xmm0, xmm0                    ;czyszczenie rejestru
+        xorps xmm1, xmm1                    ;czyszczenie rejestru
 
-        bmp_loop:                                   ; Main loop 
-            cmp rax, 2                              ; Check whether to change the bmp 
-            je change_bmp                           ; Jump if true
+        bmp_loop:                                  
 
-            mov al, byte ptr [r8 + r10]             ; Store the byte from bmp no.2 in al
-            mov byte ptr [rcx + r10], al            ; Move al to bmp result
-            inc r10                                 ; Move to the next byte in the array
-            inc rax                                 ; Move to the next byte of pixel (BGR) in the array
-            dec r9d                                 ; Decrement image size = loop counter  
-            jnz bmp_loop                            ; Continue loop if r9 is not 0
-            ret                                     ; Stop procedure
+            movdqa xmm0, [rcx + r10]        ;pobierane 128 bitów z bitmapy nr 1
+            movdqu xmm1, [rdx + r10]        ;pobierane 128 bitów z bitmapy nr 2
 
+            paddb xmm0, xmm1                ;dodanie rejestrów
 
-        change_bmp:                                 ; Change to bmp no.1
-            mov al, byte ptr [rdx + r10]            ; Store the byte from bmp no.1 in al
-            mov byte ptr [rcx + r10], al            ; Move al to bmp result
-            mov rax, 0                              ; Reset pixel counter 
-            inc r10                                 ; Move to the next byte in the array
-            dec r9d                                 ; Decrement image size = loop counter
-            jnz bmp_loop                            ; Continue loop if r9 is not 0
-            ret                                     ; Stop procedure
+            movaps [r8 + r10], xmm0         ;przeniesienie wyniku dodawania wartoœci do bitmapy wynikowej
+            add r10, 16                     ;dodanie wartoœci 16 by odpowiednio przesun¹æ siê  w pamieci
+            cmp r10, r9                     ;sprawdzenie czy index jest taki sam jak d³ugoœæ bitmap
+            jl bmp_loop                     ;kontynuuj pêtle jak index nie jest taki sam jak d³ugoœæ bitmap
+
+            ret                             ;koniec procedury
 
     anaglyph_alghorytm endp
 end

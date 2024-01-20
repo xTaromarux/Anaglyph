@@ -3,8 +3,10 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +18,7 @@ namespace Anaglyph.UserControls
     public partial class UC_CSharp : UserControl
     {
         private int counterOfExecutionTime = 0;
-        private double averageExecutionTimeInS = 0;
+        private double averageExecutionTimeInTicks = 0;
         private double averageExecutionTimeInMs = 0;
         private int numberOfThreads = 0;
 
@@ -74,22 +76,23 @@ namespace Anaglyph.UserControls
                     return;
                 }
 
-                DateTime startCSharp = DateTime.Now;
+                Stopwatch stopWatch = new Stopwatch();
+                stopWatch.Start();
                 AnaglyphAlghorytmCSharp(bitmapOfFirstImage, bitmapOfSecondImage, resultBitmap, numberOfThreads);
-                             DateTime endCSharp = DateTime.Now;
-                TimeSpan tsCSharp = (endCSharp - startCSharp);
+                stopWatch.Stop();
 
-                averageExecutionTimeInS += tsCSharp.TotalSeconds;
-                averageExecutionTimeInMs += tsCSharp.TotalMilliseconds;
+                TimeSpan ts = stopWatch.Elapsed;
+                averageExecutionTimeInTicks += ts.Ticks;
+                averageExecutionTimeInMs += ts.Milliseconds;
 
 
                 // Możemy także wyświetlić wygenerowaną liczbę
-                textBox2.Text = "Czas wykonywania to: " + tsCSharp.TotalSeconds + " s => " + tsCSharp.TotalMilliseconds + " ms";
+                textBox2.Text = "Czas wykonywania to: " + ts.Ticks + " ticks  => " + ts.Milliseconds + " ms";
                 if (counterOfExecutionTime == 5)
                 {
                     counterOfExecutionTime = 0;
-                    textBox3.Text = "Średni czas wykonywania to: " + (averageExecutionTimeInS / 5) + " s => " + (averageExecutionTimeInMs / 5) + " ms";
-                    averageExecutionTimeInS = 0;
+                    textBox3.Text = "Średni czas wykonywania to: " + (averageExecutionTimeInTicks / 5) + " ticks => " + (averageExecutionTimeInMs / 5) + " ms";
+                    averageExecutionTimeInTicks = 0;
                     averageExecutionTimeInMs = 0;
                 }
             }
@@ -104,9 +107,12 @@ namespace Anaglyph.UserControls
                     MaxDegreeOfParallelism = numberOfThreadsTemp
                 };
 
-                BitmapData bitmapDatav1 = processedBitmapv1.LockBits(new Rectangle(0, 0, processedBitmapv1.Width, processedBitmapv1.Height), ImageLockMode.ReadWrite, processedBitmapv1.PixelFormat);
-                BitmapData bitmapDatav2 = processedBitmapv2.LockBits(new Rectangle(0, 0, processedBitmapv2.Width, processedBitmapv2.Height), ImageLockMode.ReadWrite, processedBitmapv2.PixelFormat);
-                BitmapData resultBitmapData = resultBitmap.LockBits(new Rectangle(0, 0, resultBitmap.Width, resultBitmap.Height), ImageLockMode.ReadWrite, resultBitmap.PixelFormat);
+                BitmapData bitmapDatav1 = processedBitmapv1.LockBits(new Rectangle(0, 0, processedBitmapv1.Width, processedBitmapv1.Height), 
+                    ImageLockMode.ReadWrite, processedBitmapv1.PixelFormat);
+                BitmapData bitmapDatav2 = processedBitmapv2.LockBits(new Rectangle(0, 0, processedBitmapv2.Width, processedBitmapv2.Height), 
+                    ImageLockMode.ReadWrite, processedBitmapv2.PixelFormat);
+                BitmapData resultBitmapData = resultBitmap.LockBits(new Rectangle(0, 0, resultBitmap.Width, resultBitmap.Height), 
+                    ImageLockMode.ReadWrite, resultBitmap.PixelFormat);
 
                 int bytesPerPixel = System.Drawing.Bitmap.GetPixelFormatSize(processedBitmapv1.PixelFormat) / 8;
                 int heightInPixels = bitmapDatav1.Height;
@@ -134,8 +140,27 @@ namespace Anaglyph.UserControls
                 processedBitmapv1.UnlockBits(bitmapDatav1);
                 processedBitmapv2.UnlockBits(bitmapDatav2);
                 resultBitmap.UnlockBits(resultBitmapData);
-                resultBitmap.Save("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\Result.jpg");
+
+                try
+                {
+                    resultBitmap.Save("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\Result.jpg");
+                }
+                catch
+                {
+                    Bitmap bitmap = new Bitmap(resultBitmap.Width, resultBitmap.Height, resultBitmap.PixelFormat);
+                    Graphics g = Graphics.FromImage(bitmap);
+                    g.DrawImage(resultBitmap, new Point(0, 0));
+                    g.Dispose();
+                    resultBitmap.Dispose();
+                    bitmap.Save("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\Result.jpg");
+                    resultBitmap = bitmap; // preserve clone        
+                }
             }
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

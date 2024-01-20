@@ -46,5 +46,15 @@ namespace Anaglyph.UserControls
         {
 
         }
+
+        public void Close()
+        {
+            if (pictureBox.Image != null)
+            {
+                pictureBox.Image.Dispose();
+                pictureBox.Image = null;
+                this.Parent.Controls.Remove(this);
+            }
+        }
     }
 }

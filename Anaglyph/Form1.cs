@@ -15,10 +15,16 @@ namespace Anaglyph
 {
     public partial class AnaglyphForm : System.Windows.Forms.Form
     {
+        private UC_Result ucResult;
+        private UC_CSharp ucCSharp;
+        private UC_Assembly ucAssembly;
+
         public AnaglyphForm()
         {
             InitializeComponent();
             UC_CSharp uc = new UC_CSharp();
+            ucResult = null;
+            ucAssembly = null;
             addUserControl(uc);
         }
 
@@ -62,14 +68,16 @@ namespace Anaglyph
 
         private void FirstTab_Click(object sender, EventArgs e)
         {
-            UC_CSharp uc = new UC_CSharp();
-            addUserControl(uc);
+            ucCSharp = new UC_CSharp();
+            ucResult?.Close();
+            addUserControl(ucCSharp);
         }
 
         private void SecondTab_Click(object sender, EventArgs e)
         {
-            UC_Assembly uc = new UC_Assembly();
-            addUserControl(uc);
+            ucAssembly = new UC_Assembly();
+            ucResult?.Close();
+            addUserControl(ucAssembly);
         }
 
         private void Label_Click(object sender, EventArgs e)
@@ -110,8 +118,8 @@ namespace Anaglyph
 
         private void ThirdTab_Click(object sender, EventArgs e)
         {
-            UC_Result uc = new UC_Result();
-            addUserControl(uc);
+            ucResult = new UC_Result();
+            addUserControl(ucResult);
         }
     }
 }

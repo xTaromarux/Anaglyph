@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -37,7 +36,6 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.guna2TrackBar1 = new Guna.UI2.WinForms.Guna2TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -55,18 +53,10 @@
             this.label1.TabIndex = 33;
             this.label1.Text = "Based on Assembly";
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(102, 458);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(328, 20);
-            this.textBox1.TabIndex = 32;
-            this.textBox1.Text = "Liczba wątków:";
-            // 
             // button3
             // 
             this.button3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button3.Location = new System.Drawing.Point(735, 490);
+            this.button3.Location = new System.Drawing.Point(735, 486);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(124, 40);
             this.button3.TabIndex = 31;
@@ -77,7 +67,7 @@
             // button2
             // 
             this.button2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button2.Location = new System.Drawing.Point(151, 82);
+            this.button2.Location = new System.Drawing.Point(143, 90);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 29;
@@ -88,7 +78,7 @@
             // button1
             // 
             this.button1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button1.Location = new System.Drawing.Point(456, 82);
+            this.button1.Location = new System.Drawing.Point(448, 90);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 27;
@@ -100,7 +90,7 @@
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.pictureBox1.Location = new System.Drawing.Point(151, 111);
+            this.pictureBox1.Location = new System.Drawing.Point(143, 119);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(279, 329);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -111,7 +101,7 @@
             // 
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.pictureBox2.Location = new System.Drawing.Point(456, 111);
+            this.pictureBox2.Location = new System.Drawing.Point(448, 119);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(279, 329);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -120,7 +110,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(102, 484);
+            this.textBox2.Location = new System.Drawing.Point(94, 480);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(328, 20);
             this.textBox2.TabIndex = 34;
@@ -128,34 +118,19 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(102, 510);
+            this.textBox3.Location = new System.Drawing.Point(94, 506);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(328, 20);
             this.textBox3.TabIndex = 35;
             this.textBox3.Text = "Średni czas wykonywania to:";
             // 
-            // guna2TrackBar1
-            // 
-            this.guna2TrackBar1.HoverState.Parent = this.guna2TrackBar1;
-            this.guna2TrackBar1.Location = new System.Drawing.Point(456, 455);
-            this.guna2TrackBar1.Maximum = 64;
-            this.guna2TrackBar1.Minimum = 1;
-            this.guna2TrackBar1.Name = "guna2TrackBar1";
-            this.guna2TrackBar1.Size = new System.Drawing.Size(279, 23);
-            this.guna2TrackBar1.TabIndex = 36;
-            this.guna2TrackBar1.ThumbColor = System.Drawing.Color.Black;
-            this.guna2TrackBar1.Value = 64;
-            this.guna2TrackBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.guna2TrackBar1_Scroll);
-            // 
             // UC_Assembly
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.guna2TrackBar1);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button2);
@@ -174,7 +149,6 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button2;
@@ -182,6 +156,5 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
-        private Guna.UI2.WinForms.Guna2TrackBar guna2TrackBar1;
     }
 }
