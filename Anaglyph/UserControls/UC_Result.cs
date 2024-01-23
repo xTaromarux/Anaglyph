@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using CSharp_Anaglyph;
 
 namespace Anaglyph.UserControls
 {
@@ -17,11 +18,16 @@ namespace Anaglyph.UserControls
         {
             InitializeComponent();
             LoadImageIfExist();
+
         }
 
         private void LoadImageIfExist()
         {
-            string imagePath = @"C:\Users\slawek\source\repos\Anaglyph\Anaglyph\Resources\Result.jpg"; 
+            CSharp_Anaglyph.Alghorytm CSharp_Anaglyph_Dll = new CSharp_Anaglyph.Alghorytm();
+
+            string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string parentDirectory = CSharp_Anaglyph_Dll.GoUpDirectories(currentDirectory, 3);
+            string imagePath = parentDirectory + "\\Resources\\Result.jpg"; 
 
             if (File.Exists(imagePath))
             {

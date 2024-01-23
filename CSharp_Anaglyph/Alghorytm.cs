@@ -14,6 +14,19 @@ namespace CSharp_Anaglyph
 
         }
 
+        public string GoUpDirectories(string startingPath, int levelsToGoUp)
+        {
+            string resultPath = startingPath;
+
+            for (int i = 0; i < levelsToGoUp; i++)
+            {
+                resultPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(resultPath, ".."));
+            }
+
+            return resultPath;
+        }
+
+
         public void AnaglyphAlghorytmCSharp(Bitmap processedBitmapv1, Bitmap processedBitmapv2, Bitmap resultBitmap, int numberOfThreadsTemp)
         {
             unsafe
@@ -59,7 +72,9 @@ namespace CSharp_Anaglyph
 
                 try
                 {
-                    resultBitmap.Save("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\Result.jpg");
+                    string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                    string parentDirectory = GoUpDirectories(currentDirectory, 3);
+                    resultBitmap.Save(parentDirectory+"\\Resources\\Result.jpg");
                 }
                 catch
                 {
@@ -68,7 +83,9 @@ namespace CSharp_Anaglyph
                     g.DrawImage(resultBitmap, new Point(0, 0));
                     g.Dispose();
                     resultBitmap.Dispose();
-                    bitmap.Save("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\Result.jpg");
+                    string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                    string parentDirectory = GoUpDirectories(currentDirectory, 3);
+                    bitmap.Save(parentDirectory+"\\Resources\\Result.jpg");
                     resultBitmap = bitmap; // preserve clone        
                 }
             }

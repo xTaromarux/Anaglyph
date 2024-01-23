@@ -87,5 +87,10 @@ namespace Anaglyph.UserControls
                 }
             }
         }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

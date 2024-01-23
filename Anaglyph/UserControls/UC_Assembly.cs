@@ -18,7 +18,6 @@ namespace Anaglyph.UserControls
 {
     public unsafe partial class UC_Assembly : UserControl
     {
-
         [DllImport("C:\\Users\\slawek\\source\\repos\\Anaglyph\\x64\\Debug\\ASM_Anaglyph.dll")]
         private static extern void anaglyph_alghorytm(byte[] preparedArrayOfFirstImage, byte[] preparedArrayOfSecondImage, IntPtr ptrScan0ForResult, int startPoint, int endPoint);
 
@@ -78,9 +77,10 @@ namespace Anaglyph.UserControls
                 Parallel.For(0, numberOfThreads, options, i =>
                 {
                     int analyzedFragment = bytes / numberOfThreads;
+                    int remainder = bytes % numberOfThreads;
 
-                    int startPoint = analyzedFragment * i;
-                    int endPoint = startPoint + analyzedFragment;
+                    int startPoint = analyzedFragment * i + remainder;
+                    int endPoint = startPoint + analyzedFragment + remainder;
 
                     anaglyph_alghorytm(preparedArrayOfFirstImage, preparedArrayOfSecondImage, ptrScan0ForResult, startPoint, endPoint);
 
@@ -93,21 +93,26 @@ namespace Anaglyph.UserControls
                 averageExecutionTimeInMs += ts.Milliseconds;
                 resultBitmap.UnlockBits(dataOfResultBitmap);
                 bitmapOfFirstImage.UnlockBits(dataOfBitmapOfFirstImage);
+                CSharp_Anaglyph.Alghorytm CSharp_Anaglyph_Dll = new CSharp_Anaglyph.Alghorytm();
 
 
                 try
                 {
-                    resultBitmap.Save("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\Result.jpg");
+                    string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                    string parentDirectory = CSharp_Anaglyph_Dll.GoUpDirectories(currentDirectory, 3);
+                    resultBitmap.Save(parentDirectory+"\\Resources\\Result.jpg");
                 }
                 catch
                 {
+                    string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                    string parentDirectory = CSharp_Anaglyph_Dll.GoUpDirectories(currentDirectory, 3);
                     Bitmap bitmap = new Bitmap(resultBitmap.Width, resultBitmap.Height, resultBitmap.PixelFormat);
                     Graphics g = Graphics.FromImage(bitmap);
                     g.DrawImage(resultBitmap, new Point(0, 0));
                     g.Dispose();
                     resultBitmap.Dispose();
 
-                    bitmap.Save("C:\\Users\\slawek\\source\\repos\\Anaglyph\\Anaglyph\\Resources\\Result.jpg");
+                    bitmap.Save(parentDirectory+"\\Resources\\Result.jpg");
                     resultBitmap = bitmap; // preserve clone        
                 }
 
