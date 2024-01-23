@@ -83,7 +83,6 @@
             this.textBox2.Size = new System.Drawing.Size(328, 20);
             this.textBox2.TabIndex = 43;
             this.textBox2.Text = "Czas wykonywania to:";
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // textBox1
             // 

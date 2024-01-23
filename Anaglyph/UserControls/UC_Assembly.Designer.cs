@@ -36,6 +36,8 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
+            this.guna2TrackBar1 = new Guna.UI2.WinForms.Guna2TrackBar();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -124,10 +126,33 @@
             this.textBox3.TabIndex = 35;
             this.textBox3.Text = "Średni czas wykonywania to:";
             // 
+            // guna2TrackBar1
+            // 
+            this.guna2TrackBar1.HoverState.Parent = this.guna2TrackBar1;
+            this.guna2TrackBar1.Location = new System.Drawing.Point(448, 454);
+            this.guna2TrackBar1.Maximum = 64;
+            this.guna2TrackBar1.Minimum = 1;
+            this.guna2TrackBar1.Name = "guna2TrackBar1";
+            this.guna2TrackBar1.Size = new System.Drawing.Size(279, 20);
+            this.guna2TrackBar1.TabIndex = 47;
+            this.guna2TrackBar1.ThumbColor = System.Drawing.Color.Black;
+            this.guna2TrackBar1.Value = 64;
+            this.guna2TrackBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.guna2TrackBar1_Scroll);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(94, 454);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(328, 20);
+            this.textBox1.TabIndex = 46;
+            this.textBox1.Text = "Liczba wątków:";
+            // 
             // UC_Assembly
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.guna2TrackBar1);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label1);
@@ -138,7 +163,6 @@
             this.Controls.Add(this.button1);
             this.Name = "UC_Assembly";
             this.Size = new System.Drawing.Size(871, 539);
-            this.Load += new System.EventHandler(this.UC_Assembly_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
@@ -156,5 +180,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
+        private Guna.UI2.WinForms.Guna2TrackBar guna2TrackBar1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
